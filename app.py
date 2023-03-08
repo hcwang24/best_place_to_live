@@ -12,8 +12,7 @@ app = Dash(__name__)
 app.layout = html.Div([
     html.Div(children=[
         html.Label('Dropdown'),
-        dcc.Dropdown(['New York City', 'Montréal',
-                     'San Francisco'], 'Montréal'),
+        dcc.Dropdown(sorted(list(set(data['Geo Local Area']))), 'Marpole'),
 
         html.Br(),
         html.Label('Multi-Select Dropdown'),
