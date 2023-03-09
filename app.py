@@ -17,9 +17,9 @@ app.layout = html.Div(
                 html.Label('Geo Local Area'),
                 dcc.Checklist(
                     id='geo-checkbox',
-                    options=[{'label': x, 'value': x}
+                    options=[{'label': 'All', 'value': 'all'}] + [{'label': x, 'value': x}
                              for x in sorted(list(set(data['Geo Local Area'])))],
-                    value=['Marpole']
+                    value=['all']
                 )
             ],
             style={'padding': 10}
@@ -52,7 +52,10 @@ app.layout = html.Div(
     Input('geo-checkbox', 'value')
 )
 def update_graph(geo_values):
-    filtered_data = data.loc[(data['Geo Local Area'].isin(geo_values))]
+    if 'all' in geo_values:
+        filtered_data = data
+    else:
+        filtered_data = data.loc[(data['Geo Local Area'].isin(geo_values))]
     fig = px.box(filtered_data, x='zoning_classification', y='current_land_value',
                  color='zoning_classification', title='Vancouver Housing Values', height=500)
     fig.update_xaxes(title='House Type')
@@ -65,7 +68,10 @@ def update_graph(geo_values):
     Input('geo-checkbox', 'value')
 )
 def update_map(geo_values):
-    filtered_data = data.loc[(data['Geo Local Area'].isin(geo_values))]
+    if 'all' in geo_values:
+        filtered_data = data
+    else:
+        filtered_data = data.loc[(data['Geo Local Area'].isin(geo_values))]
     fig = px.scatter_mapbox(filtered_data, lat='latitude', lon='longitude',
                             hover_name='full_address', hover_data=['current_land_value'],
                             zoom=11, height=500)
