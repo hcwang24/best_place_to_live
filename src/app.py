@@ -8,6 +8,8 @@ data = pd.read_csv('van_houses.csv')
 # Create the app
 app = Dash(__name__)
 
+server = app.server
+
 # Define the layout
 app.layout = html.Div(
     children=[
