@@ -9,7 +9,7 @@ import random
 random.seed(532)
 data = pd.read_csv("assets/data/van_houses.csv").sample(frac=0.1)
 logo = html.Img(src="assets/img/logo.png", className="header-img",
-                style={'height': '50%', 'width': '100px'})
+                style={'height': '20%', 'align': 'center'})
 title = html.H1('Vancouver Housing App', style={'textAlign': 'center'})
 
 # Create the app
@@ -22,16 +22,14 @@ load_figure_template('DARKLY')
 # Define the layout
 app.layout = html.Div(
     [
-        dbc.Row(
-            [
-                dbc.Col(logo),
-                dbc.Col(title),
-            ],
-            align='top',
+        dbc.Row(title,
+            align='center',
+            justify='center',
         ),
 
         dbc.Row([dbc.Col(
             [
+                logo,
                 html.Label('Select Communities:'),
                 dcc.Dropdown(
                     id='geo-dropdown',
