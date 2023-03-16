@@ -5,8 +5,9 @@ import dash_bootstrap_components as dbc
 from dash_bootstrap_templates import load_figure_template
 import random
 
-# Load the data
-data = pd.read_csv("assets/data/van_houses.csv")
+# Load the data and only randomly pick 10% of the data
+random.seed(532)
+data = pd.read_csv("assets/data/van_houses.csv").sample(frac=0.1)
 logo = html.Img(src="assets/img/logo.png", className="header-img",
                 style={'height': '10%', 'width': '10%'})
 title = html.H1('Vancouver Housing Values', style={'textAlign': 'center'})
@@ -43,7 +44,7 @@ app.layout = html.Div(
                 html.Label('Select Built Year:'),
                 dcc.RangeSlider(
                     min(data['year_built']), max(data['year_built']), 1,
-                    id='year-built-slider',
+                    id='yearbuilt-slider',
                     value=[min(data['year_built']), max(data['year_built'])],
                     marks=None, tooltip={"placement": "bottom", "always_visible": True})
             ], md=2),
@@ -77,13 +78,14 @@ app.layout = html.Div(
     [Output('histogram', 'figure'),
      Output('map', 'figure'),
      Output('piechart', 'figure')],
-    Input('geo-dropdown', 'value')
+    [Input('geo-dropdown', 'value'),
+     Input('yearbuilt-slider', 'value')]
 )
-def update_graph(geo_values):
-    if 'all' in geo_values:
-        filtered_data = data
-    else:
-        filtered_data = data.loc[(data['Geo Local Area'].isin(geo_values))]
+def update_graph(geo_values, yearbuilt_value):
+    min_yearbuilt, max_yearbuilt = yearbuilt_value[0], yearbuilt_value[1]
+    filtered_data = data.query('@min_yearbuilt <= year_built & year_built <= @max_yearbuilt')
+    if not 'all' in geo_values:
+        filtered_data = filtered_data.loc[(filtered_data['Geo Local Area'].isin(geo_values))]
 
     # Update histogram
     fig1 = px.box(filtered_data, x='zoning_classification', y='current_land_value',
@@ -94,12 +96,10 @@ def update_graph(geo_values):
     fig1.update_layout(showlegend=False)
 
     # Do random sampling on the filtered_data to plot on map
-    random.seed(532)
-    filtered_data_map = filtered_data.sample(frac=0.1)
-    fig2 = px.scatter_mapbox(filtered_data_map, lat='latitude', lon='longitude', color='current_land_value',
+    fig2 = px.scatter_mapbox(filtered_data, lat='latitude', lon='longitude', color='current_land_value',
                             hover_name='full_address', hover_data=['current_land_value'],
                             center={"lat": 49.2527, "lon": -123.120},
-                            color_continuous_scale='YlOrRd', range_color=[0, 5000000], zoom=11,
+                            color_continuous_scale='Agsunset', range_color=[0, 5000000], zoom=11,
                             labels={"current_land_value": "Value ($)"})
     fig2.update_layout(mapbox_style="carto-positron")
 
