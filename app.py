@@ -129,7 +129,7 @@ def update_graph(geo_values, yearbuilt_value):
                   )
     fig1.update_xaxes(title='House Type')
     fig1.update_yaxes(title='Current Land Value')
-    fig1.update_layout(showlegend=False)
+    fig1.update_layout(showlegend=False, paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)')
 
     # Do random sampling on the filtered_data to plot on map
     fig2 = px.scatter_mapbox(filtered_data, lat='latitude', lon='longitude', color='current_land_value',
@@ -137,13 +137,14 @@ def update_graph(geo_values, yearbuilt_value):
                              center={"lat": 49.2527, "lon": -123.120},
                              color_continuous_scale='Agsunset', range_color=[0, 5000000], zoom=10,
                              labels={"current_land_value": "Value ($)"})
-    fig2.update_layout(mapbox_style="carto-positron")
+    fig2.update_layout(mapbox_style="carto-positron", paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)')
 
     # Update pie chart
     df = filtered_data['zoning_classification'].value_counts()
     fig3 = px.pie(df, values=df.values, names=df.index, hole=.3)
     fig3.update_traces(textfont_size=15,
                        marker=dict(line=dict(color='#000000', width=1.5)))
+    fig3.update_layout(paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)')
 
     return fig1, fig2, fig3
 
