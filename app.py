@@ -68,28 +68,38 @@ app.layout = html.Div(
                     ),
 
             # Graphs
-            dbc.Row([
-                dcc.Graph(
-                    id='map',
-                    style={'padding': '0', 'margin': '0',
-                           'width': '100%', 'height': '375px'}
-                ),
-            ]),
-            dbc.Row([
-                dcc.Graph(
-                    id='piechart',
-                    style={'display': 'inline-block', 'padding': '0', 'margin': '0',
-                           'width': '50%', 'height': '285px'}
-                ),
-                dcc.Graph(
-                    id="histogram",
-                    style={'display': 'inline-block', 'padding': '0', 'margin': '0',
-                           'width': '50%', 'height': '285px'}
-                ),
-            ]),
-        ],  md=8, style={'padding': '10px 10px'}),
-    ]),
+            dbc.Row(
+                dbc.Card([
+                    dbc.CardHeader(html.H4('The most important things')),
+                    dbc.CardBody(dcc.Graph(
+                        id='map',
+                        style={'padding': '0', 'margin': '0',
+                               'width': 'auto%', 'height': '375px'}
+                    ),
+                    ),
+                ]),
+            ),
+            dbc.Row(
+                dbc.Card([
+                    dbc.CardHeader(html.H4('The most important things')),
+                    dbc.CardBody([dcc.Graph(
+                        id='piechart',
+                        style={'display': 'inline-block', 'padding': '0', 'margin': '0',
+                               'width': '50%', 'height': '285px'}
+                    ),
+                        dcc.Graph(
+                        id="histogram",
+                        style={'display': 'inline-block', 'padding': '0', 'margin': '0',
+                               'width': '50%', 'height': '285px'}
+                    ), ]
+                    ),
+                ]),
+            ),
+        ]),
     ])
+    ],
+    style={'padding': 40, 'background-image': 'url("assets/img/IMG_5724.png")', 'background-size': 'cover'}
+)
 
 
 # Define callbacks
