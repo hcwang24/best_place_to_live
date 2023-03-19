@@ -4,7 +4,7 @@ This document provides instructions on how to submit a change request for our Va
 
 ## Set Up Dependencies
 
-Using the same dependencies is the key to running our project. Before contributing, please install all packages indicated in the requirements section of the [README](https://github.com/UBC-MDS/van_houses/blob/main/README.md) file to make sure you are using the correct dependencies.
+Using the same dependencies is the key to running our project. Before contributing, please install all packages indicated in the requirements section of the [README](README.md) file to make sure you are using the correct dependencies.
 
 ## Contribution Process
 
@@ -35,7 +35,4 @@ Code of Conduct. By contributing to this project you agree to abide by its terms
 
 Any violations that occur can be reported to:
 
-- Ziyi Chen at zchen156@student.ubc.ca
 - HanChen Wang at hcwang24@student.ubc.ca
-- Ke Wang at kewang5@student.ubc.ca
-- Morris Zhao at morrisz@student.ubc.ca
