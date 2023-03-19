@@ -46,7 +46,7 @@ app.layout = html.Div(
                                             list(set(data["Geo Local Area"]))
                                         )
                                     ],
-                                    value=["Downtown", "Kerrisdale"],
+                                    value=["Downtown", "Kerrisdale", "Marpole", "Kitsilano"],
                                     multi=True,
                                     placeholder="Select a community",
                                 ),
