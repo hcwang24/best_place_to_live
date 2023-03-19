@@ -10,14 +10,15 @@ random.seed(532)
 data = pd.read_csv("assets/data/van_houses.csv").sample(frac=0.1)
 logo = html.Img(src="assets/img/logo.png", className="header-img",
                 style={'width': '100%', 'align': 'center', 'paddingBottom': '50px'})
-title = html.H1('Vancouver Housing App', style={'textAlign': 'center'})
+title = html.H1('Vancouver Housing App', style={'textAlign': 'center', 'fontWeight': 'bold', 'color': 'white'})
 
 # Create the app
 app = Dash(__name__, external_stylesheets=[dbc.themes.LUX])
 
 server = app.server
 
-load_figure_template('DARKLY')
+load_figure_template('darkly')
+
 
 # Define the layout
 app.layout = html.Div(
@@ -49,12 +50,13 @@ app.layout = html.Div(
             # vertical=True,
             # pills=True,
             style={
-                'background-color': '#f8f9fa',
+                'background-color': 'rgba(248, 249, 250, 0.9)',
                 'border-right': '1px solid #dee2e6',
                 'padding': '20px',
                 'height': '100vh',
                 'width': '250px',
-                'margin': '0'
+                'margin': '0',
+                'opacity': '0.9'
             },
             md=2,
         ),
@@ -74,10 +76,11 @@ app.layout = html.Div(
                     dbc.CardBody(dcc.Graph(
                         id='map',
                         style={'padding': '0', 'margin': '0',
-                               'width': 'auto%', 'height': '375px'}
+                               'width': 'auto%', 'height': '375px', 'opacity': 0.9},
+                        className="border-0 bg-transparent",
                     ),
                     ),
-                ]),
+                ], color='rgba(0,0,0, 0.7)', inverse=True,),
             ),
             dbc.Row(
                 dbc.Card([
@@ -85,15 +88,15 @@ app.layout = html.Div(
                     dbc.CardBody([dcc.Graph(
                         id='piechart',
                         style={'display': 'inline-block', 'padding': '0', 'margin': '0',
-                               'width': '50%', 'height': '285px'}
+                               'width': '50%', 'height': '285px', 'opacity': 0.9}
                     ),
                         dcc.Graph(
                         id="histogram",
                         style={'display': 'inline-block', 'padding': '0', 'margin': '0',
-                               'width': '50%', 'height': '285px'}
+                               'width': '50%', 'height': '285px', 'opacity': 0.9}
                     ), ]
                     ),
-                ]),
+                ], color='rgba(0,0,0, 0.7)', inverse=True,),
             ),
         ]),
     ])
