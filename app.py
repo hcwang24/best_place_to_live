@@ -81,7 +81,7 @@ app.layout = html.Div(
                         "background-color": "rgba(248, 249, 250, 0.9)",
                         "border-right": "1px solid #dee2e6",
                         "padding": "20px",
-                        "height": "100vh",
+                        "height": "95vh",
                         "width": "250px",
                         "margin": "0",
                         "opacity": "0.9",
@@ -96,13 +96,15 @@ app.layout = html.Div(
                             title,
                             align="center",
                             justify="center",
+                            style={"height":"5%"},
                         ),
                         # Graphs
                         dbc.Row(
                             dbc.Card(
                                 [
                                     dbc.CardHeader(
-                                        html.H4("The most important things")
+                                        html.H4("Property maps"),
+                                        style={'height': '10px'}
                                     ),
                                     dbc.CardBody(
                                         dcc.Loading(
@@ -111,8 +113,8 @@ app.layout = html.Div(
                                                 style={
                                                     "padding": "0",
                                                     "margin": "0",
-                                                    "width": "auto%",
-                                                    "height": "375px",
+                                                    "width": "100%",
+                                                    "height": "340px",
                                                     "opacity": 0.9,
                                                 },
                                                 className="border-0 bg-transparent",
@@ -123,6 +125,7 @@ app.layout = html.Div(
                                 ],
                                 color="rgba(0,0,0, 0.7)",
                                 inverse=True,
+                                style={'width': '1200px', 'margin': '0 auto', 'height': '325px'},
                             ),
                         ),
                         dbc.Row(
@@ -131,7 +134,8 @@ app.layout = html.Div(
                                 children=dbc.Card(
                                     [
                                         dbc.CardHeader(
-                                            html.H4("The most important things")
+                                            html.H4("Details"),
+                                            style={'height': '10px'}
                                         ),
                                         dbc.CardBody(
                                             [
@@ -142,8 +146,7 @@ app.layout = html.Div(
                                                         "padding": "0",
                                                         "margin": "0",
                                                         "width": "50%",
-                                                        "height": "285px",
-                                                        "opacity": 0.9,
+                                                        "height": "325px",
                                                     },
                                                 ),
                                                 dcc.Graph(
@@ -153,7 +156,7 @@ app.layout = html.Div(
                                                         "padding": "0",
                                                         "margin": "0",
                                                         "width": "50%",
-                                                        "height": "285px",
+                                                        "height": "325px",
                                                         "opacity": 0.9,
                                                     },
                                                 ),
@@ -162,19 +165,24 @@ app.layout = html.Div(
                                     ],
                                     color="rgba(0,0,0, 0.7)",
                                     inverse=True,
+                                    style={'width': '1200px', 'margin': '0 auto', 'height': '330px'},
                                 ),
                                 type="circle",
                             )
                         ),
-                    ]
+                    ],
+                    style={
+                        "padding": "10px 10px",
+                    },
                 ),
             ]
         )
     ],
     style={
-        "padding": 40,
+        "padding": "10px",
         "background-image": 'url("assets/img/IMG_5724.png")',
         "background-size": "cover",
+        "height": "100vh"
     },
 )
 
@@ -199,18 +207,20 @@ def update_graph(geo_values, yearbuilt_value):
         filtered_data = filtered_data.loc[
             (filtered_data["Geo Local Area"].isin(geo_values))
         ]
-
     # Update histogram
-    fig1 = px.box(
-        filtered_data,
-        x="zoning_classification",
-        y="current_land_value",
+    fig1 = px.histogram(
+        filtered_data.query("current_land_value <=5000000"),
+        x="current_land_value",
         color="zoning_classification",
+        range_x=[0,5000000],
+        nbins=20,
+        # histnorm='density',  # set the normalization method
+        barmode='overlay',
     )
-    fig1.update_xaxes(title="House Type")
-    fig1.update_yaxes(title="Current Land Value")
+    fig1.update_yaxes(title="Density")
+    fig1.update_xaxes(title="Current Land Value ($)")
     fig1.update_layout(
-        showlegend=False, paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)"
+        showlegend=False, paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(255,255,255,0.8)"
     )
 
     # Do random sampling on the filtered_data to plot on map
