@@ -18,7 +18,7 @@ Thank you for being interested in my Vancouver Housing Market App!
 
 My app is designed to provide an interactive and informative way to explore the Vancouver housing market. Whether you're a real estate professional, a data analyst, or simply curious about the housing price trends in Vancouver, my app has something for you.
 
-We hope you find my app useful and informative. Happy exploring!
+I hope you find my app useful and informative. Happy exploring!
 
 ## Motivation and purpose
 
@@ -32,7 +32,7 @@ More details can be found [here](reports/proposal.md).
 
 ## Who are we
 
-We are a team of data scientists at [UBC MDS](https://masterdatascience.ubc.ca) who are passionate about coming up with original, useful solutions to challenges. My team is ideally suited to take on challenging tasks in the field of data analysis because of the wide range of expertise in data science, programming, and statistics that I have.
+I are a team of data scientists at [UBC MDS](https://masterdatascience.ubc.ca) who are passionate about coming up with original, useful solutions to challenges. My team is ideally suited to take on challenging tasks in the field of data analysis because of the wide range of expertise in data science, programming, and statistics that I have.
 
 The development of this app for Vancouver's housing market was a collaborative effort that brought together my team's expertise in data collection, analysis, and visualization.
 
@@ -55,7 +55,7 @@ On the left hand side there are drop down menus, check boxes and slide bars to l
 
 ## Contributing
 
-We welcome anyone who is interested in contributing to my app for Vancouver's housing market. My project is open-source, which means that anyone can view and contribute to the code on my GitHub repository.
+I welcome anyone who is interested in contributing to my app for Vancouver's housing market. My project is open-source, which means that anyone can view and contribute to the code on my GitHub repository.
 
 If you are interested in getting involved, check out the [contributing guidelines](CONTRIBUTING.md). Please note that this project is released with a [Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
 
