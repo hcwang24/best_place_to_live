@@ -1,18 +1,16 @@
 # best_place_to_live
+
 A Dash for houses in different communities in Vancouver, BC, Canada
+
 [![shiny-deploy](https://github.com/UBC-MDS/van_houses/actions/workflows/deploy-app.yaml/badge.svg)](https://github.com/UBC-MDS/van_houses/actions/workflows/deploy-app.yaml) [![Test app w/ {renv}](https://github.com/UBC-MDS/van_houses/actions/workflows/testing.yaml/badge.svg)](https://github.com/UBC-MDS/van_houses/actions/workflows/testing.yaml)
 
 # Vancouver Housing Market Dashboard <img src="img/logo.png" align="right" height="139"/>
 
--   Authors: Morris Zhao, HanChen Wang, Ziyi Chen, Ken Wang
+-   Authors: HanChen Wang
 
 ## Usage
 
-- Our app is deployed on shinyapps.io [here](https://hcwang24.shinyapps.io/van_houses/).
-- Alternatively, you can run with docker: `docker run --rm -p 3838:3838 kenuiuc/van_house_app:v0.0.1`
-- The pre-built docker image is available on Dokcker Hub [here](https://hub.docker.com/repository/docker/kenuiuc/van_house_app).
-- If you want to build the image yourself, use the `Dockerfile` at the repo root directory.
-
+- The app is deployed on render.com [here](best-place-to-live.onrender.com).
 
 ## Welcome
 
@@ -40,10 +38,7 @@ The development of this app for Vancouver's housing market was a collaborative e
 
 ### Meet the team
 
--   Morris Zhao
 -   HanChen Wang
--   Ziyi Chen
--   Ken Wang
 
 ## Description
 
@@ -69,6 +64,10 @@ If you are interested in getting involved, check out the [contributing guideline
 If you have any questions, feedback, or suggestions about our Vancouver Housing Market app, we would love to hear from you! You can contact our team by visiting our GitHub repository and creating a new issue. This is the best way to reach us if you have technical questions or issues with the app.
 
 Alternatively, you can contact us via email by sending a message to the address listed [here](https://github.com/UBC-MDS/van_houses/blob/main/CONTRIBUTING.md). We welcome any inquiries about the project or our team and are happy to answer any questions you may have.
+
+## Special Thanks
+
+This individual work is based on the group assignment completed with my team members Morris Zhao, Ken Wang, and Ziyi Chen. The group assignment repo can be found [here](https://github.com/UBC-MDS/van_houses).
 
 ## Data Source
 
