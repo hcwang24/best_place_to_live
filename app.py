@@ -9,7 +9,7 @@ import random
 random.seed(532)
 data = pd.read_csv("assets/data/van_houses.csv").sample(frac=0.1)
 logo = html.Img(src="assets/img/logo.png", className="header-img",
-                style={'height': '20%', 'align': 'center', 'paddingBottom': '50px'})
+                style={'width': '100%', 'align': 'center', 'paddingBottom': '50px'})
 title = html.H1('Vancouver Housing App', style={'textAlign': 'center'})
 
 # Create the app
@@ -21,28 +21,20 @@ load_figure_template('DARKLY')
 
 # Define the layout
 app.layout = html.Div(
-    [
-        # Title
-        dbc.Row(title,
-                align='center',
-                justify='center',
-                ),
+    [dbc.Row([
+        dbc.Col(
+            [
+                logo,
 
-        dbc.Row([
-            # Side bar
-            dbc.Col(
-                [
-                    logo,
-
-                    dbc.Row([html.Label('Select Communities:'),
-                             dcc.Dropdown(
+                dbc.Row([html.Label('Select Communities:'),
+                         dcc.Dropdown(
                         id='geo-dropdown',
                         options=[{'label': 'All', 'value': 'all'}] + [{'label': x, 'value': x}
                                                                       for x in sorted(list(set(data['Geo Local Area'])))],
                         value=['Downtown', 'Kerrisdale'], multi=True, placeholder='Select a community'),
-                    ], style={'paddingBottom': '50px'}
-                    ),
-                    dbc.Row([
+                ], style={'paddingBottom': '50px'}
+                ),
+                dbc.Row([
                         html.Label('Select Built Year:'),
                         dcc.RangeSlider(
                             min(data['year_built']), max(
@@ -51,37 +43,54 @@ app.layout = html.Div(
                             value=[min(data['year_built']),
                                    max(data['year_built'])],
                             marks=None, tooltip={"placement": "bottom", "always_visible": True})
-                    ], style={'paddingBottom': '50px'},
+                        ], style={'paddingBottom': '50px'},
+                        ),
+            ],
+            # vertical=True,
+            # pills=True,
+            style={
+                'background-color': '#f8f9fa',
+                'border-right': '1px solid #dee2e6',
+                'padding': '20px',
+                'height': '100vh',
+                'width': '250px',
+                'margin': '0'
+            },
+            md=2,
+        ),
+
+        dbc.Col([
+            # Side bar
+            # Title
+            dbc.Row(title,
+                align='center',
+                justify='center',
                     ),
-                ], md=2),
-                
+
             # Graphs
-            dbc.Col(
-                [
-                    dbc.Row([
-                        dcc.Graph(
-                            id='map',
-                            style={'padding': '0', 'margin': '0',
-                                   'width': '100%', 'height': '375px'}
-                        ),
-                    ]),
-                    dbc.Row([
-                        dcc.Graph(
-                            id='piechart',
-                            style={'display': 'inline-block', 'padding': '0', 'margin': '0',
-                                   'width': '50%', 'height': '285px'}
-                        ),
-                        dcc.Graph(
-                            id="histogram",
-                            style={'display': 'inline-block', 'padding': '0', 'margin': '0',
-                                   'width': '50%', 'height': '285px'}
-                        ),
-                    ]),
-                ]),
-        ],),
-    ],
-    style={'padding': '10px 10px', 'height': '100vh'}
-)
+            dbc.Row([
+                dcc.Graph(
+                    id='map',
+                    style={'padding': '0', 'margin': '0',
+                           'width': '100%', 'height': '375px'}
+                ),
+            ]),
+            dbc.Row([
+                dcc.Graph(
+                    id='piechart',
+                    style={'display': 'inline-block', 'padding': '0', 'margin': '0',
+                           'width': '50%', 'height': '285px'}
+                ),
+                dcc.Graph(
+                    id="histogram",
+                    style={'display': 'inline-block', 'padding': '0', 'margin': '0',
+                           'width': '50%', 'height': '285px'}
+                ),
+            ]),
+        ],  md=8, style={'padding': '10px 10px'}),
+    ]),
+    ])
+
 
 # Define callbacks
 
