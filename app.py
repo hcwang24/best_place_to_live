@@ -316,8 +316,8 @@ def update_graph(geo_values, zoning_values, yearbuilt_value, yearimprov_value):
     fig2 = px.line(trend_data, x="tax_assessment_year",
                    y="current_land_value", color="Geo Local Area")
     # title="Average Current Land Value by Geo Local Area and Tax Assessment Year")
-    fig2.update_yaxes(title="Year")
-    fig2.update_xaxes(title="Value ($)")
+    fig2.update_xaxes(title="Year")
+    fig2.update_yaxes(title="Value ($)")
     fig2.update_layout(xaxis={'tickmode': 'array', 'tickvals': [
                        '2020', '2021', '2022', '2023']},
                        paper_bgcolor="rgba(0,0,0,0)",
