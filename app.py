@@ -145,7 +145,8 @@ app.layout = html.Div(
                                 children=dbc.Card(
                                     [
                                         dbc.CardHeader(
-                                            html.H4("Property maps and trends"),
+                                            html.H4(
+                                                "Property maps and trends"),
                                             style={'height': '10px'}
                                         ),
                                         dbc.CardBody(
@@ -189,7 +190,8 @@ app.layout = html.Div(
                                 children=dbc.Card(
                                     [
                                         dbc.CardHeader(
-                                            html.H4("Property Types in Selected Region"),
+                                            html.H4(
+                                                "Property Types in Selected Region"),
                                             style={'height': '10px'}
                                         ),
                                         dbc.CardBody(
@@ -234,7 +236,14 @@ app.layout = html.Div(
                     sm=9,
                 ),
             ]
-        )
+        ),
+        html.Footer(
+            html.Div(
+                [
+                    html.P("Copyright © 2023 HanChen Wang, UBC Master of Data Science"),
+                ],
+            ),
+        ),
     ],
     style={
         "padding": "10px",
