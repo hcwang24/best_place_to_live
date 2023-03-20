@@ -1,5 +1,5 @@
 import pandas as pd
-from dash import Dash, dcc, html, Input, Output
+from dash import Dash, dcc, html, Input, Output, State
 import plotly.express as px
 import dash_bootstrap_components as dbc
 from dash_bootstrap_templates import load_figure_template
@@ -55,6 +55,16 @@ app.layout = html.Div(
                                     label="Show fractioned data",
                                     labelPosition="left"
                                 ),
+                                html.Div(id='output'),
+                                dbc.Modal(
+                                    [
+                                        dbc.ModalHeader("Warning"),
+                                        dbc.ModalBody("Only the map shows fractioned data (10%). Displaying full data may take a long time to load."),
+                                    ],
+                                    id="warning-modal",
+                                    centered=True,
+                                    is_open=False,
+                                )
                             ],
                             style={"paddingBottom": "20px"},
                         ),
@@ -261,8 +271,13 @@ app.layout = html.Div(
 )
 
 
-# Define callbacks
-
+# Define callbacks    
+@app.callback(Output("warning-modal", "is_open"),
+              [Input('boolean-switch', 'on')])
+def toggle_warning_modal(on):
+    if not on:
+        return True
+    return False
 
 @ app.callback(
     [
