@@ -87,6 +87,7 @@ app.layout = html.Div(
                         "opacity": "0.9",
                     },
                     md=2,
+                    sm=2,
                 ),
                 dbc.Col(
                     [
@@ -125,7 +126,7 @@ app.layout = html.Div(
                                 ],
                                 color="rgba(0,0,0, 0.7)",
                                 inverse=True,
-                                style={'width': '1200px', 'margin': '0 auto', 'height': '325px'},
+                                style={'width': '97.5%', 'margin': '0 auto', 'height': '325px'},
                             ),
                         ),
                         dbc.Row(
@@ -165,7 +166,7 @@ app.layout = html.Div(
                                     ],
                                     color="rgba(0,0,0, 0.7)",
                                     inverse=True,
-                                    style={'width': '1200px', 'margin': '0 auto', 'height': '330px'},
+                                    style={'width': '100%', 'margin': '0 auto', 'height': '330px'},
                                 ),
                                 type="circle",
                             )
@@ -174,6 +175,8 @@ app.layout = html.Div(
                     style={
                         "padding": "10px 10px",
                     },
+                    md=8,
+                    sm=8,
                 ),
             ]
         )
