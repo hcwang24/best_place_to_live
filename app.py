@@ -3,6 +3,7 @@ from dash import Dash, dcc, html, Input, Output
 import plotly.express as px
 import dash_bootstrap_components as dbc
 from dash_bootstrap_templates import load_figure_template
+import dash_daq as daq
 import random
 
 data = pd.read_csv("assets/data/van_houses.csv")
@@ -47,6 +48,12 @@ app.layout = html.Div(
                                            "Marpole", "Kitsilano"],
                                     multi=True,
                                     placeholder="Select a community",
+                                ),
+                                daq.BooleanSwitch(
+                                    id='boolean-switch',
+                                    on=True,
+                                    label="Show fractioned data",
+                                    labelPosition="left"
                                 ),
                             ],
                             style={"paddingBottom": "20px"},
@@ -264,12 +271,13 @@ app.layout = html.Div(
         Output("histogram", "figure"),
         Output("piechart", "figure"),
     ],
-    [Input("geo-dropdown", "value"),
+    [Input("boolean-switch", "on"),
+     Input("geo-dropdown", "value"),
      Input("zoning-dropdown", "value"),
      Input("yearbuilt-slider", "value"),
      Input("yearimprov-slider", "value")],
 )
-def update_graph(geo_values, zoning_values, yearbuilt_value, yearimprov_value):
+def update_graph(on, geo_values, zoning_values, yearbuilt_value, yearimprov_value):
     min_yearbuilt, max_yearbuilt = yearbuilt_value[0], yearbuilt_value[1]
     min_yearimprov, max_yearimprov = yearimprov_value[0], yearimprov_value[1]
     filtered_data = data.query(
@@ -288,7 +296,10 @@ def update_graph(geo_values, zoning_values, yearbuilt_value, yearimprov_value):
     # Do random sampling on the filtered_data to plot on map
     # Load the data and only randomly pick 10% of the data
     random.seed(532)
-    map_data = filtered_data.copy().sample(frac=0.1)
+    if not on:
+        map_data = filtered_data.copy().sample(frac=0.1)
+    else:
+        map_data = filtered_data.copy()
     fig1 = px.scatter_mapbox(
         map_data,
         lat="latitude",
