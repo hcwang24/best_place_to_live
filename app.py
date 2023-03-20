@@ -8,7 +8,7 @@ import random
 data = pd.read_csv("assets/data/van_houses.csv")
 logo = html.Img(
     src="assets/img/logo.png",
-    style={"width": "100%", "align": "center", "paddingBottom": "50px"},
+    style={"width": "100%", "align": "center", "paddingBottom": "20px"},
 )
 title = html.H1(
     "Vancouver Housing App",
@@ -49,7 +49,27 @@ app.layout = html.Div(
                                     placeholder="Select a community",
                                 ),
                             ],
-                            style={"paddingBottom": "50px"},
+                            style={"paddingBottom": "20px"},
+                        ),
+                        dbc.Row(
+                            [
+                                html.Label("Select Property Type:"),
+                                dcc.Dropdown(
+                                    id="zoning-dropdown",
+                                    options=[{"label": "All", "value": "all"}]
+                                    + [
+                                        {"label": x, "value": x}
+                                        for x in sorted(
+                                            list(
+                                                set(data["zoning_classification"]))
+                                        )
+                                    ],
+                                    value='all',
+                                    multi=True,
+                                    placeholder="Select a property type",
+                                ),
+                            ],
+                            style={"paddingBottom": "20px"},
                         ),
                         dbc.Row(
                             [
@@ -70,7 +90,28 @@ app.layout = html.Div(
                                     },
                                 ),
                             ],
-                            style={"paddingBottom": "50px"},
+                            style={"paddingBottom": "20px"},
+                        ),
+                        dbc.Row(
+                            [
+                                html.Label("Select Improvement Year:"),
+                                dcc.RangeSlider(
+                                    min(data["big_improvement_year"]),
+                                    max(data["big_improvement_year"]),
+                                    1,
+                                    id="yearimprov-slider",
+                                    value=[
+                                        min(data["big_improvement_year"]),
+                                        max(data["big_improvement_year"]),
+                                    ],
+                                    marks=None,
+                                    tooltip={
+                                        "placement": "bottom",
+                                        "always_visible": True,
+                                    },
+                                ),
+                            ],
+                            style={"paddingBottom": "20px"},
                         ),
                     ],
                     # vertical=True,
@@ -104,7 +145,7 @@ app.layout = html.Div(
                                 children=dbc.Card(
                                     [
                                         dbc.CardHeader(
-                                            html.H4("Property maps"),
+                                            html.H4("Property maps and trends"),
                                             style={'height': '10px'}
                                         ),
                                         dbc.CardBody(
@@ -148,7 +189,7 @@ app.layout = html.Div(
                                 children=dbc.Card(
                                     [
                                         dbc.CardHeader(
-                                            html.H4("Details"),
+                                            html.H4("Property Types in Selected Region"),
                                             style={'height': '10px'}
                                         ),
                                         dbc.CardBody(
@@ -214,18 +255,26 @@ app.layout = html.Div(
         Output("histogram", "figure"),
         Output("piechart", "figure"),
     ],
-    [Input("geo-dropdown", "value"), Input("yearbuilt-slider", "value")],
+    [Input("geo-dropdown", "value"),
+     Input("zoning-dropdown", "value"),
+     Input("yearbuilt-slider", "value"),
+     Input("yearimprov-slider", "value")],
 )
-def update_graph(geo_values, yearbuilt_value):
+def update_graph(geo_values, zoning_values, yearbuilt_value, yearimprov_value):
     min_yearbuilt, max_yearbuilt = yearbuilt_value[0], yearbuilt_value[1]
+    min_yearimprov, max_yearimprov = yearimprov_value[0], yearimprov_value[1]
     filtered_data = data.query(
-        "@min_yearbuilt <= year_built & year_built <= @max_yearbuilt"
+        "@min_yearbuilt <= year_built & year_built <= @max_yearbuilt & @min_yearimprov <= year_built & year_built <= @max_yearimprov"
     )
     if not "all" in geo_values:
         filtered_data = filtered_data.loc[
             (filtered_data["Geo Local Area"].isin(geo_values))
         ]
 
+    if not "all" in zoning_values:
+        filtered_data = filtered_data.loc[
+            (filtered_data["zoning_classification"].isin(zoning_values))
+        ]
 
     # Do random sampling on the filtered_data to plot on map
     # Load the data and only randomly pick 10% of the data
@@ -264,48 +313,49 @@ def update_graph(geo_values, yearbuilt_value):
                        '2020', '2021', '2022', '2023']},
                        paper_bgcolor="rgba(0,0,0,0)",
                        plot_bgcolor="rgba(0,0,0,0)")
-    
-    # Setting color dictionary for fig3 and 4. 
+
+    # Setting color dictionary for fig3 and 4.
     color_dict = {
-    "Multiple Dwelling": "#1f77b4",
-    "Single Detached House": "#ff7f0e",
-    "Duplex": "#2ca02c",
-    "One-Family Dwelling": "#d62728",
-    "Two-Family Dwelling": "#9467bd",
-    "Comprehensive Development": "#8c564b",
-    "Commercial": "#e377c2",
-    "Industrial": "#7f7f7f",
-    "Historical Area": "#bcbd22",
-    "Limited Agriculture": "#17becf",
-    "Other": "#ff0000"
+        "Comprehensive Development": "#1f77b4",
+        "Single Detached House": "#ff7f0e",
+        "Duplex": "#2ca02c",
+        "One-Family Dwelling": "#d62728",
+        "Two-Family Dwelling": "#9467bd",
+        "Multiple Dwelling": "#8c564b",
+        "Commercial": "#e377c2",
+        "Industrial": "#7f7f7f",
+        "Historical Area": "#bcbd22",
+        "Limited Agriculture": "#17becf",
+        "Other": "#ff0000"
     }
-    
+
     # Update histogram
     fig3 = px.histogram(
-    filtered_data.query("current_land_value <=5000000"),
-    x="current_land_value",
-    color="zoning_classification",
-    range_x=[0, 5000000],
-    nbins=20,
-    color_discrete_map=color_dict,
-    barmode='overlay',
+        filtered_data.query("current_land_value <=5000000"),
+        x="current_land_value",
+        color="zoning_classification",
+        range_x=[0, 5000000],
+        nbins=20,
+        color_discrete_map=color_dict,
+        barmode='overlay',
     )
     fig3.update_yaxes(title="Number of properties")
     fig3.update_xaxes(title="Value ($)")
     fig3.update_layout(
         paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(255,255,255,0.8)",
-        legend=dict(title="Zoning Classification", bgcolor="rgba(0,0,0,0)")
+        legend=dict(title="Property Types", bgcolor="rgba(0,0,0,0)")
     )
 
     # Update pie chart
     df = filtered_data["zoning_classification"].value_counts()
-    fig4 = px.pie(df, values=df.values, names=df.index, hole=0.3, color=df.index, color_discrete_map=color_dict)
+    fig4 = px.pie(df, values=df.values, names=df.index, hole=0.3,
+                  color=df.index, color_discrete_map=color_dict)
     fig4.update_traces(
         textfont_size=15, marker=dict(line=dict(color="#000000", width=1.5))
     )
     fig4.update_layout(paper_bgcolor="rgba(0,0,0,0)",
-                    plot_bgcolor="rgba(0,0,0,0)",
-                    showlegend=False)
+                       plot_bgcolor="rgba(0,0,0,0)",
+                       showlegend=False)
 
     return fig1, fig2, fig3, fig4
 
