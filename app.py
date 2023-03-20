@@ -59,7 +59,7 @@ app.layout = html.Div(
                                 dbc.Modal(
                                     [
                                         dbc.ModalHeader("Warning"),
-                                        dbc.ModalBody("Only the map shows fractioned data (10%). Displaying full data may take a long time to load."),
+                                        dbc.ModalBody("The map on default shows 10% of the full data points. Turning the switch off will display all data and may take a long time to load."),
                                     ],
                                     id="warning-modal",
                                     centered=True,
