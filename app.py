@@ -5,12 +5,9 @@ import dash_bootstrap_components as dbc
 from dash_bootstrap_templates import load_figure_template
 import random
 
-# Load the data and only randomly pick 10% of the data
-random.seed(532)
-data = pd.read_csv("assets/data/van_houses.csv").sample(frac=0.1)
+data = pd.read_csv("assets/data/van_houses.csv")
 logo = html.Img(
     src="assets/img/logo.png",
-    className="header-img",
     style={"width": "100%", "align": "center", "paddingBottom": "50px"},
 )
 title = html.H1(
@@ -46,7 +43,8 @@ app.layout = html.Div(
                                             list(set(data["Geo Local Area"]))
                                         )
                                     ],
-                                    value=["Downtown", "Kerrisdale", "Marpole", "Kitsilano"],
+                                    value=["Downtown", "Kerrisdale",
+                                           "Marpole", "Kitsilano"],
                                     multi=True,
                                     placeholder="Select a community",
                                 ),
@@ -97,61 +95,33 @@ app.layout = html.Div(
                             title,
                             align="center",
                             justify="center",
-                            style={"height":"5%"},
+                            style={"height": "5%"},
                         ),
                         # Graphs
-                        dbc.Row(
-                            dbc.Card(
-                                [
-                                    dbc.CardHeader(
-                                        html.H4("Property maps"),
-                                        style={'height': '10px'}
-                                    ),
-                                    dbc.CardBody(
-                                        dcc.Loading(
-                                            dcc.Graph(
-                                                id="map",
-                                                style={
-                                                    "padding": "0",
-                                                    "margin": "0",
-                                                    "width": "100%",
-                                                    "height": "340px",
-                                                    "opacity": 0.9,
-                                                },
-                                                className="border-0 bg-transparent",
-                                            ),
-                                            type="circle",
-                                        ),
-                                    ),
-                                ],
-                                color="rgba(0,0,0, 0.7)",
-                                inverse=True,
-                                style={'width': '97.5%', 'margin': '0 auto', 'height': '325px'},
-                            ),
-                        ),
                         dbc.Row(
                             dcc.Loading(
                                 id="card-loading",
                                 children=dbc.Card(
                                     [
                                         dbc.CardHeader(
-                                            html.H4("Details"),
+                                            html.H4("Property maps"),
                                             style={'height': '10px'}
                                         ),
                                         dbc.CardBody(
                                             [
                                                 dcc.Graph(
-                                                    id="piechart",
+                                                    id="map",
                                                     style={
                                                         "display": "inline-block",
                                                         "padding": "0",
                                                         "margin": "0",
                                                         "width": "50%",
                                                         "height": "325px",
+                                                        "opacity": 0.9,
                                                     },
                                                 ),
                                                 dcc.Graph(
-                                                    id="histogram",
+                                                    id="trends",
                                                     style={
                                                         "display": "inline-block",
                                                         "padding": "0",
@@ -166,7 +136,51 @@ app.layout = html.Div(
                                     ],
                                     color="rgba(0,0,0, 0.7)",
                                     inverse=True,
-                                    style={'width': '100%', 'margin': '0 auto', 'height': '330px'},
+                                    style={'width': '100%',
+                                           'margin': '0 auto', 'height': '330px'},
+                                ),
+                                type="circle",
+                            )
+                        ),
+                        dbc.Row(
+                            dcc.Loading(
+                                id="card-loading2",
+                                children=dbc.Card(
+                                    [
+                                        dbc.CardHeader(
+                                            html.H4("Details"),
+                                            style={'height': '10px'}
+                                        ),
+                                        dbc.CardBody(
+                                            [
+                                                dcc.Graph(
+                                                    id="histogram",
+                                                    style={
+                                                        "display": "inline-block",
+                                                        "padding": "0",
+                                                        "margin": "0",
+                                                        "width": "65%",
+                                                        "height": "325px",
+                                                        "opacity": 0.9,
+                                                    },
+                                                ),
+                                                dcc.Graph(
+                                                    id="piechart",
+                                                    style={
+                                                        "display": "inline-block",
+                                                        "padding": "0",
+                                                        "margin": "0",
+                                                        "width": "33%",
+                                                        "height": "325px",
+                                                    },
+                                                ),
+                                            ]
+                                        ),
+                                    ],
+                                    color="rgba(0,0,0, 0.7)",
+                                    inverse=True,
+                                    style={'width': '100%',
+                                           'margin': '0 auto', 'height': '330px'},
                                 ),
                                 type="circle",
                             )
@@ -175,8 +189,8 @@ app.layout = html.Div(
                     style={
                         "padding": "10px 10px",
                     },
-                    md=8,
-                    sm=8,
+                    md=9,
+                    sm=9,
                 ),
             ]
         )
@@ -193,10 +207,11 @@ app.layout = html.Div(
 # Define callbacks
 
 
-@app.callback(
+@ app.callback(
     [
-        Output("histogram", "figure"),
         Output("map", "figure"),
+        Output("trends", "figure"),
+        Output("histogram", "figure"),
         Output("piechart", "figure"),
     ],
     [Input("geo-dropdown", "value"), Input("yearbuilt-slider", "value")],
@@ -210,25 +225,14 @@ def update_graph(geo_values, yearbuilt_value):
         filtered_data = filtered_data.loc[
             (filtered_data["Geo Local Area"].isin(geo_values))
         ]
-    # Update histogram
-    fig1 = px.histogram(
-        filtered_data.query("current_land_value <=5000000"),
-        x="current_land_value",
-        color="zoning_classification",
-        range_x=[0,5000000],
-        nbins=20,
-        # histnorm='density',  # set the normalization method
-        barmode='overlay',
-    )
-    fig1.update_yaxes(title="Density")
-    fig1.update_xaxes(title="Current Land Value ($)")
-    fig1.update_layout(
-        showlegend=False, paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(255,255,255,0.8)"
-    )
+
 
     # Do random sampling on the filtered_data to plot on map
-    fig2 = px.scatter_mapbox(
-        filtered_data,
+    # Load the data and only randomly pick 10% of the data
+    random.seed(532)
+    map_data = filtered_data.copy().sample(frac=0.1)
+    fig1 = px.scatter_mapbox(
+        map_data,
         lat="latitude",
         lon="longitude",
         color="current_land_value",
@@ -240,21 +244,70 @@ def update_graph(geo_values, yearbuilt_value):
         zoom=10,
         labels={"current_land_value": "Value ($)"},
     )
-    fig2.update_layout(
+    fig1.update_layout(
         mapbox_style="carto-positron",
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
     )
 
+    # Update trendline
+    trend_data = pd.DataFrame(filtered_data.groupby(["Geo Local Area", "tax_assessment_year"]).mean(
+        numeric_only=True)['current_land_value']).reset_index()
+    trend_data['tax_assessment_year'] = trend_data['tax_assessment_year'].astype(
+        int)
+    fig2 = px.line(trend_data, x="tax_assessment_year",
+                   y="current_land_value", color="Geo Local Area")
+    # title="Average Current Land Value by Geo Local Area and Tax Assessment Year")
+    fig2.update_yaxes(title="Year")
+    fig2.update_xaxes(title="Value ($)")
+    fig2.update_layout(xaxis={'tickmode': 'array', 'tickvals': [
+                       '2020', '2021', '2022', '2023']},
+                       paper_bgcolor="rgba(0,0,0,0)",
+                       plot_bgcolor="rgba(0,0,0,0)")
+    
+    # Setting color dictionary for fig3 and 4. 
+    color_dict = {
+    "Multiple Dwelling": "#1f77b4",
+    "Single Detached House": "#ff7f0e",
+    "Duplex": "#2ca02c",
+    "One-Family Dwelling": "#d62728",
+    "Two-Family Dwelling": "#9467bd",
+    "Comprehensive Development": "#8c564b",
+    "Commercial": "#e377c2",
+    "Industrial": "#7f7f7f",
+    "Historical Area": "#bcbd22",
+    "Limited Agriculture": "#17becf",
+    "Other": "#ff0000"
+    }
+    
+    # Update histogram
+    fig3 = px.histogram(
+    filtered_data.query("current_land_value <=5000000"),
+    x="current_land_value",
+    color="zoning_classification",
+    range_x=[0, 5000000],
+    nbins=20,
+    color_discrete_map=color_dict,
+    barmode='overlay',
+    )
+    fig3.update_yaxes(title="Number of properties")
+    fig3.update_xaxes(title="Value ($)")
+    fig3.update_layout(
+        paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(255,255,255,0.8)",
+        legend=dict(title="Zoning Classification", bgcolor="rgba(0,0,0,0)")
+    )
+
     # Update pie chart
     df = filtered_data["zoning_classification"].value_counts()
-    fig3 = px.pie(df, values=df.values, names=df.index, hole=0.3)
-    fig3.update_traces(
+    fig4 = px.pie(df, values=df.values, names=df.index, hole=0.3, color=df.index, color_discrete_map=color_dict)
+    fig4.update_traces(
         textfont_size=15, marker=dict(line=dict(color="#000000", width=1.5))
     )
-    fig3.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)")
+    fig4.update_layout(paper_bgcolor="rgba(0,0,0,0)",
+                    plot_bgcolor="rgba(0,0,0,0)",
+                    showlegend=False)
 
-    return fig1, fig2, fig3
+    return fig1, fig2, fig3, fig4
 
 
 # Run the app
