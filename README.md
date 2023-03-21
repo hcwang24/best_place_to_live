@@ -38,10 +38,10 @@ The development of this app for Vancouver's housing market was a collaborative e
 
 ## Description
 
--   **Statistics Boxes**: Four key statistics for your chosen population of houses. These include the number of houses meeting your criteria, their average price, year of construction, and year of major improvements.
--   **Map**: An interactive map that allows user to choose a certain area. Based on the area selection all other components will update in real time.
--   **Histogram**: Property price distribution. The range of price shown here is subject to the `Price` slide bar on the left. Price range and percentage show up when you hover over any bucket in the histogram. Optionally you can also change price range by drag-selecting areas within the current plot.
--   **Data Table**: In addition to above visualizations, I also plan to include a `Data Source` component, where users can query and download the raw data as csv a file.
+-   **Map**: An interactive map that allows user to see where the properties are located and hover over the point to see the detailed property values. Based on the area selection all other components will update in real time.
+-   **Trendline**: A trendline plot that allows user to see the average property value in different communities of Vancouver, over the past three years. Based on the area selection all other components will update in real time.
+-   **Histogram**: Property type distribution plot showing the price range of different properties in Vancouver. Price range and percentage show up when you hover over any bucket in the histogram. Optionally you can also change price range by drag-selecting areas within the current plot.
+-   **Pie Chart**: In addition to above histogram, I also included a pie chart showing the percentage of different property types in the communities selected. 
 
 Ideally all the interactive features in these 3 visualizations are linked together. When you make a selection on the left sidebar, all visualizaitons will update accordingly as well.
 
@@ -55,11 +55,11 @@ I welcome anyone who is interested in contributing to my app for Vancouver's hou
 
 If you are interested in getting involved, check out the [contributing guidelines](CONTRIBUTING.md). Please note that this project is released with a [Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
 
-## Contact us
+## Contact me
 
-If you have any questions, feedback, or suggestions about my Vancouver Housing Market app, I would love to hear from you! You can contact my team by visiting my GitHub repository and creating a new issue. This is the best way to reach me if you have technical questions or issues with the app.
+If you have any questions, feedback, or suggestions about my Vancouver Housing Market app, I would love to hear from you! You can contact me by visiting my GitHub repository and creating a new issue. This is the best way to reach me if you have technical questions or issues with the app.
 
-Alternatively, you can contact me via email by sending a message to the address listed [here](https://github.com/UBC-MDS/van_houses/blob/main/CONTRIBUTING.md). I welcome any inquiries about the project or my team and are happy to answer any questions you may have.
+Alternatively, you can contact me via email by sending a message to the address listed [here](https://github.com/UBC-MDS/van_houses/blob/main/CONTRIBUTING.md). I welcome any inquiries about the project and are happy to answer any questions you may have.
 
 ## Special Thanks
 
