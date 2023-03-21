@@ -1,8 +1,6 @@
-# best_place_to_live
+# Best Place to Live - Vancouver Housing Market Dashboard <img src="assets/img/logo.png" align="right" height="139"/>
 
-A Dash for houses in different communities in Vancouver, BC, Canada
-
-# Vancouver Housing Market Dashboard <img src="assets/img/logo.png" align="right" height="139"/>
+A dash for property values in different communities of Vancouver, BC, Canada
 
 -   Authors: HanChen Wang
 
