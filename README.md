@@ -2,9 +2,7 @@
 
 A Dash for houses in different communities in Vancouver, BC, Canada
 
-[![shiny-deploy](https://github.com/UBC-MDS/van_houses/actions/workflows/deploy-app.yaml/badge.svg)](https://github.com/UBC-MDS/van_houses/actions/workflows/deploy-app.yaml) [![Test app w/ {renv}](https://github.com/UBC-MDS/van_houses/actions/workflows/testing.yaml/badge.svg)](https://github.com/UBC-MDS/van_houses/actions/workflows/testing.yaml)
-
-# Vancouver Housing Market Dashboard <img src="img/logo.png" align="right" height="139"/>
+# Vancouver Housing Market Dashboard <img src="assets/img/logo.png" align="right" height="139"/>
 
 -   Authors: HanChen Wang
 
