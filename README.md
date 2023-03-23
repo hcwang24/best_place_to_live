@@ -47,7 +47,7 @@ Ideally all the interactive features in these 3 visualizations are linked togeth
 
 On the left hand side there are drop down menus, check boxes and slide bars to let you select data points under certain criteria. Currently my design is to let you filter by `community`, `property type`, `price` and `year built`. These filters will apply to all the 3 visualizations on the right.
 
-<img src="img/new gif.gif" width="1000" height="500"/>
+<img src="reports/sketch.png" width="1000" height="500"/>
 
 ## Contributing
 
