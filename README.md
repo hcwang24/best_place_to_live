@@ -6,7 +6,7 @@ A dash for property values in different communities of Vancouver, BC, Canada
 
 ## Usage
 
-- The app is deployed on render.com [here](best-place-to-live.onrender.com).
+- The app is deployed on render.com [here](https://best-place-to-live.onrender.com/).
 
 ## Welcome
 
