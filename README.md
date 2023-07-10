@@ -28,7 +28,7 @@ More details can be found [here](reports/proposal.md).
 
 ## Who are we
 
-I are a team of data scientists at [UBC MDS](https://masterdatascience.ubc.ca) who are passionate about coming up with original, useful solutions to challenges. My team is ideally suited to take on challenging tasks in the field of data analysis because of the wide range of expertise in data science, programming, and statistics that I have.
+I'm an aspiring data scientist at [UBC MDS](https://masterdatascience.ubc.ca) who is passionate about coming up with original, useful solutions to challenges. 
 
 The development of this app for Vancouver's housing market was a collaborative effort that brought together my team's expertise in data collection, analysis, and visualization.
 
